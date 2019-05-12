@@ -96,7 +96,7 @@ class ContactData extends Component {
 
   orderHandler = event => {
     event.preventDefault();
-    console.log(this.props.ings);
+    // console.log(this.props.ings);
 
     const formData = {};
 
@@ -109,7 +109,8 @@ class ContactData extends Component {
     const order = {
       ingredients: this.props.ings,
       price: this.props.price,
-      orderData: formData
+      orderData: formData,
+      userId: this.props.userId
     };
 
     this.props.onOrderBurger(order, this.props.token);
@@ -181,9 +182,7 @@ class ContactData extends Component {
               invalid={!formElement.config.valid}
               shouldValidate={formElement.config.validation}
               touched={formElement.config.touched}
-              changed={event =>
-                this.inputChangedHandler(event, formElement.id)
-              }
+              changed={event => this.inputChangedHandler(event, formElement.id)}
             />
           );
         })}
@@ -209,13 +208,15 @@ const mapStateToProps = state => {
     ings: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.totalPrice,
     loading: state.order.loading,
-    token: state.auth.token
+    token: state.auth.token,
+    userId: state.auth.userId
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
+    onOrderBurger: (orderData, token) =>
+      dispatch(actions.purchaseBurger(orderData, token))
   };
 };
 
